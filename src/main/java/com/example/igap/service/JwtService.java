@@ -1,5 +1,6 @@
 package com.example.igap.service;
 
+import com.example.igap.exception.ServiceException;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -60,12 +61,19 @@ public class JwtService {
     }
 
     private Claims extractAllClaims(String token){
-        return Jwts
-                .parserBuilder()
-                .setSigningKey(getSignInKey())
-                .build()
-                .parseClaimsJws(token)
-                .getBody();
+        Claims claims;
+
+         try {
+             claims = Jwts
+                     .parserBuilder()
+                     .setSigningKey(getSignInKey())
+                     .build()
+                     .parseClaimsJws(token)
+                     .getBody();
+         } catch (Exception e) {
+             throw new ServiceException("Invalid token");
+         }
+        return claims;
     }
 
     private Key getSignInKey(){

@@ -17,6 +17,6 @@ public class ProfileController {
 
     @PostMapping(value = "/addProfileToUser", consumes = MediaType.APPLICATION_JSON_VALUE ,produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ProfileDtoOut> addProfileToUser(@RequestBody ProfileDtoIn profileDtoIn) {
-        return ResponseEntity.ok(service.addProfile(profileDtoIn));
+        return ResponseEntity.ok(service.createAndAddProfileToUser(profileDtoIn));
     }
 }

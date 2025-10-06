@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -16,4 +17,7 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
 
     @Query("SELECT u FROM UserEntity u WHERE u.id = :id")
     public Optional<UserEntity> findById(@Param("id") Long id);
+
+    @Query("SELECT u FROM UserEntity u")
+    public List<UserEntity> findAll();
 }

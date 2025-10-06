@@ -8,13 +8,23 @@ import com.example.igap.model.entity.UserEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class ProfileService {
     private final ProfileRepository repository;
    private final UserService userService;
 
-    public ProfileDtoOut addProfile(ProfileDtoIn profileDtoIn) {
+   public ProfileEntity getProfile(Long id) {
+       Optional<ProfileEntity> profileEntity = repository.findById(id);
+       if (profileEntity.isEmpty()) {
+           throw new SecurityException("Profile not found");
+       }
+       return profileEntity.get();
+   }
+
+    public ProfileDtoOut createAndAddProfileToUser(ProfileDtoIn profileDtoIn) {
         UserEntity user = userService.getUser(profileDtoIn.getUserId());
         ProfileEntity userProfile = profileDtoIn.mapToEntity(user);
         repository.save(userProfile);

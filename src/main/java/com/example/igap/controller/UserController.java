@@ -9,16 +9,16 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/user")
 @RequiredArgsConstructor
 public class UserController {
     private final UserService service;
 
-    /*@GetMapping(value = "/list", consumes = MediaType.APPLICATION_JSON_VALUE,produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<UserDtoOut> getById() {
-        return ResponseEntity.ok(service.getById(id));
-    }*/
-
-
+    @GetMapping(value = "/allUsers", consumes = MediaType.APPLICATION_JSON_VALUE,produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<UserDtoOut>> getAllUsers() {
+        return ResponseEntity.ok(service.getUsers());
+    }
 }
