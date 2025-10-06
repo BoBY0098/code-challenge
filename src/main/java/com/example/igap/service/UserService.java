@@ -4,6 +4,9 @@ import com.example.igap.dao.UserRepository;
 import com.example.igap.model.dto.UserDtoOut;
 import com.example.igap.model.entity.UserEntity;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -30,8 +33,9 @@ public class UserService {
         return userEntity.get();
     }
 
-    public List<UserDtoOut> getUsers() {
-        List<UserEntity> userEntities = repository.findAll();
-        return userEntities.stream().map(UserDtoOut::new).toList();
+    public Page<UserDtoOut> getUsers(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<UserEntity> userEntities = repository.findAllUsersPaginated(pageable);
+        return userEntities.map(UserDtoOut::new);
     }
 }
